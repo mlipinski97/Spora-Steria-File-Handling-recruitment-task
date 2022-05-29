@@ -4,8 +4,11 @@ import pl.lipinski.reader.CSVReader;
 import pl.lipinski.writer.CSVWriter;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class CSVReportCreator implements SopraSteriaReportCreator {
+
+    private static final Logger logger = Logger.getLogger(CSVReportCreator.class.getName());
 
     private static CSVReportCreator instance;
 
@@ -23,16 +26,10 @@ public class CSVReportCreator implements SopraSteriaReportCreator {
 
     @Override
     public void createReport(String sourcePath, String reportPath) {
-        //we're creating singleton reader object to read data from our csv files
         CSVReader csvReader = CSVReader.getInstance();
-
-        //calling readCsv method which returns list of words by line (list of list of words)
         Map<String, Long> readCSVData = csvReader.read(sourcePath);
-
-        //we create singleton writer object to write into our report
         CSVWriter csvWriter = CSVWriter.getInstance();
-
-        //we write into new file with given name
         csvWriter.write(reportPath, readCSVData);
+        logger.info("created Database report for path: " + sourcePath + " at: " + reportPath);
     }
 }

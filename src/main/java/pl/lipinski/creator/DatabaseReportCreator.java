@@ -4,8 +4,11 @@ import pl.lipinski.reader.DatabaseReader;
 import pl.lipinski.writer.CSVWriter;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class DatabaseReportCreator implements SopraSteriaReportCreator {
+
+    private static final Logger logger = Logger.getLogger(CSVReportCreator.class.getName());
 
     private static DatabaseReportCreator instance;
 
@@ -28,5 +31,6 @@ public class DatabaseReportCreator implements SopraSteriaReportCreator {
         CSVWriter databaseWriter = CSVWriter.getInstance();
 
         databaseWriter.write(reportPath, readCSVData);
+        logger.info("created Database report for path: " + databasePath + " at: " + reportPath);
     }
 }
