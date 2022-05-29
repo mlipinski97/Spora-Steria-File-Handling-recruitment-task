@@ -18,7 +18,7 @@ class CSVReaderTest {
     @DisplayName("when given existing file path it reads correctly and returns list key-value pairs")
     void whenGivenExistingFile_thenItReadsAndReturnsMapOfKeyValuePairs() {
         //given
-        String filePath = "/ItemTest.csv";
+        String filePath = "./src/test/resources/ItemTest.csv";
         Map<String, Long> expectedOutcome = new HashMap<>();
         expectedOutcome.put("supply", 292L);
         expectedOutcome.put("buy", 159L);
@@ -39,10 +39,10 @@ class CSVReaderTest {
     }
 
     @Test
-    @DisplayName("when given existing file path with malformed data it throws?")
-    void whenGivenNonExistingFile_thenItThrowsException() {
+    @DisplayName("when given existing file path with malformed data it throws NumberFormatException")
+    void whenGivenFileWithMalformedData_thenItThrowsNumberFormatException() {
         //given
-        String malformedDataFilePath = "/malformedItemData.csv";
+        String malformedDataFilePath = "./src/test/resources/malformedItemData.csv";
         //then
         assertThrows(NumberFormatException.class, () -> csvReader.read(malformedDataFilePath));
     }

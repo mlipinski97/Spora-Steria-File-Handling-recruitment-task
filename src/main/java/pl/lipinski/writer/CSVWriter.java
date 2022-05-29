@@ -2,9 +2,9 @@ package pl.lipinski.writer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -28,6 +28,8 @@ public class CSVWriter implements SopraSteriaWriter {
 
     private List<String> formatData(Map<String, Long> data) {
         List<String> formattedData = new ArrayList<>();
+        if(!data.containsKey("supply")) data.put("supply", 0L);
+        if(!data.containsKey("buy")) data.put("buy", 0L);
         formattedData.add("supply," + data.get("supply"));
         formattedData.add("buy," + data.get("buy"));
         formattedData.add("result," + (data.get("supply") - data.get("buy")));
@@ -42,7 +44,7 @@ public class CSVWriter implements SopraSteriaWriter {
             formattedData.forEach(printWriter::println);
         } catch (FileNotFoundException e) {
             logger.info("File with given path: " + reportPath + " does not exist" +
-                    "\nsee more: " + e.getMessage());
+                    "\nsee more: \n" + Arrays.toString(e.getStackTrace()));
         }
     }
 }

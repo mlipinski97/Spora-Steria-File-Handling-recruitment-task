@@ -2,7 +2,10 @@ package pl.lipinski.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -26,10 +29,9 @@ public class CSVReader implements SopraSteriaReader {
     @Override
     public Map<String, Long> read(String filePath) {
         Map<String, Long> data = new HashMap<>();
-        InputStreamReader inputStreamReader = null;
         try {
-            inputStreamReader = new InputStreamReader(this.getClass().getResourceAsStream(filePath));
-            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+            Path sourcePath = Paths.get(filePath);
+            try (BufferedReader bufferedReader = Files.newBufferedReader(sourcePath)) {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] values = line.split(",");
@@ -44,11 +46,8 @@ public class CSVReader implements SopraSteriaReader {
             logger.info("No readable file at path: " + filePath);
         } catch (IOException ioException) {
             logger.info("Problem occurred while reading file: " + filePath +
-                    "\nsee error message for more: " + ioException.getMessage());
+                    "\nsee error message for more: \n" + Arrays.toString(ioException.getStackTrace()));
         }
         return data;
     }
-
-    //handlowanie wyjatkow + testy do tego
-    //zrobic interfejsy przy tworzeniu alternatywnego readera/writera/report createora
 }
